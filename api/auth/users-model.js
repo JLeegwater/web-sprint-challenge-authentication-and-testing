@@ -1,0 +1,58 @@
+const db = require("../../data/dbConfig");
+
+function find() {
+  return db("users as u").select("u.id", "u.username");
+}
+
+function findBy(filter) {
+  return db("users as u")
+    .select("u.id", "u.username", "u.password")
+    .where(filter);
+}
+
+function findById(user_id) {
+  return db("users as u")
+    .select("u.id", "u.username")
+    .where("u.id", user_id)
+    .first();
+}
+
+/**
+  Creating a user requires a single insert (into users) if the role record with the given
+  role_name already exists in the db, or two inserts (into roles and then into users)
+  if the given role_name does not exist yet.
+
+  When an operation like creating a user involves inserts to several tables,
+  we want the operation to succeed or fail as a whole. It would not do to
+  insert a new role record and then have the insertion of the user fail.
+
+  In situations like these we use transactions: if anything inside the transaction
+  fails, all the database changes in it are rolled back.
+
+  {
+    "user_id": 7,
+    "username": "anna",
+    "role_name": "team lead"
+  }
+ */
+async function add({ username, password }) {
+  // done for you
+  let created_user_id;
+  await db.transaction(async (trx) => {
+    const [user_id] = await trx("users").insert({
+      username,
+      password,
+    });
+    created_user_id = user_id;
+  });
+  const user = await findById(created_user_id);
+
+  return user;
+}
+
+module.exports = {
+  add,
+  find,
+  findBy,
+  findById,
+};
