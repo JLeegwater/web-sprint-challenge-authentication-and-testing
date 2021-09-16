@@ -1,5 +1,4 @@
 const {
-  restricted,
   checkPayload,
   checkUsernameExists,
 } = require("../middleware/restricted");
