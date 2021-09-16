@@ -1,8 +1,6 @@
-//const Hobbit = require("./hobbits-model.js");
 const db = require("../data/dbConfig");
 const request = require("supertest");
 const server = require("./server");
-const auth = require("./auth/auth-router");
 const user = {
   username: "Jesse",
   password: "password",

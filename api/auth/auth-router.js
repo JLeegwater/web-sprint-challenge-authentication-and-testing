@@ -44,7 +44,7 @@ router.post("/login", checkPayload, checkUsernameExists, (req, res, next) => {
 // eslint-disable-next-line
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
-    sageAdvice: "Finding the real error is 91% of the bug fix",
+    sageAdvice: "Finding the real error is 90% of the bug fix",
     message: err.message,
     stack: err.stack,
   });

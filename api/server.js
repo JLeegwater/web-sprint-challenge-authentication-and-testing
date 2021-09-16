@@ -14,7 +14,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use("/api/auth", authRouter);
-server.use("/api/jokes", restricted, jokesRouter); // only logged-in users should have access!
+server.use("/api/jokes", restricted, jokesRouter);
 
 // eslint-disable-next-line
 server.use((err, req, res, next) => {
